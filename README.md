@@ -1,7 +1,8 @@
+```
 STRESS AND STRAIN ANALYSIS SYSTEM
 Group Members
 Member	Primary Responsibility
-Don Derek Magpantay	  Task 1 – Basic Calculations
+Don Derek Magpantay	    Task 1 – Basic Calculations
 Daniel Nico Del Mundo	Task 2 – Control Structures
 Robert Gabriel Roldan	Task 3 – Data Structures
 Luis Cruzado	        Task 4 – Functions
@@ -35,3 +36,4 @@ REPOSITORY STRUCTURE
 •	database.py — Contains the predefined materials database and functions to access it.
 •	main.py — The main entry point; imports and coordinates all other modules through a menu-driven interface.
 
+```
