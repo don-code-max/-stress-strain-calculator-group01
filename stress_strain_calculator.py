@@ -1,5 +1,9 @@
 def main():
     """Main function for the stress and strain calculator."""
+    
+    calculations_history = []
+    unique_materials = set()
+    UNITS = ("N", "m²", "m", "Pa")
 
     while True:
         print("=== Stress and Strain Calculator ===")
@@ -120,12 +124,44 @@ def main():
         print("=== Analysis Complete ===")
         print()
 
+        calculation_record = {
+            "material": material_name,
+            "force": force,
+            "area": area,
+            "original_length": original_length,
+            "change_in_length": change_in_length,
+            "stress": stress,
+            "strain": strain,
+            "yield_strength": yield_strength,
+            "factor_of_safety": factor_of_safety
+        }
+        calculations_history.append(calculation_record)
+        unique_materials.add(material_name)
+
         repeat = input("Do you want to run another calculation? (y/n): ").strip().lower()
         if repeat != "y":
             print("Exiting calculator.")
             break
         print()
     
+    print("\n=== SESSION SUMMARY ===")
+    total_calcs = len(calculations_history)
+    print(f"Total calculations performed: {total_calcs}")
+    
+    if total_calcs > 0:
+        print(f"Unique materials tested: {', '.join(unique_materials)} ({len(unique_materials)} materials)")
+        
+        highest_stress_record = max(calculations_history, key=lambda x: x['stress'])
+        avg_strain = sum(record['strain'] for record in calculations_history) / total_calcs
+        
+        print(f"Highest Stress Experienced: {highest_stress_record['stress'] / 1e6:.2f} MPa (Material: {highest_stress_record['material']})")
+        print(f"Average Strain Across All Tests: {avg_strain:.6f}")
+        
+        print("\n--- Detailed History ---")
+        for i, record in enumerate(calculations_history, 1):
+            print(f"Test {i}: {record['material']} | Force: {record['force']} {UNITS[0]} | "
+                  f"Stress: {record['stress'] / 1e6:.2f} MPa | FOS: {record['factor_of_safety']:.2f}")
+            
 if __name__ == "__main__":
     main()
 
