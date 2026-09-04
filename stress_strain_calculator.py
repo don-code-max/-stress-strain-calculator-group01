@@ -1,6 +1,10 @@
 def main():
     """Main function for the stress and strain calculator."""
-
+    
+    calculations_history = []
+    unique_materials = set()
+    UNITS = ("N", "m²", "m", "Pa")
+    
     while True:
         print("=== Stress and Strain Calculator ===")
         print()
