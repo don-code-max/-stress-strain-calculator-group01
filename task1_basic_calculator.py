@@ -9,6 +9,9 @@ def main():
     original_length = float(input("Enter the original length (m): "))
     change_in_length = float(input("Enter the change in length (m): "))
 
+    stress = force / area
+    strain = change_in_length / original_length
 
 if __name__ == "__main__":
     main()
+
