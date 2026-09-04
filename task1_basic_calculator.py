@@ -5,6 +5,51 @@ def main():
         print("=== Stress and Strain Calculator ===")
         print()
 
+        print("Select Material:")
+        print("1. Steel")
+        print("2. Aluminum")
+        print("3. Titanium")
+        print("4. Custom")
+
+        while True:
+            choice = input("Enter choice (1-4): ").strip()
+            if choice == "1":
+                material_name = "Steel"
+                yield_strength = 250e6
+                youngs_modulus = 200e9
+                break
+            elif choice == "2":
+                material_name = "Aluminum"
+                yield_strength = 95e6
+                youngs_modulus = 69e9
+                break
+            elif choice == "3":
+                material_name = "Titanium"
+                yield_strength = 880e6
+                youngs_modulus = 114e9
+                break
+            elif choice == "4":
+                material_name = "Custom"
+                while True:
+                    try:
+                        yield_strength = float(input("Enter yield strength (MPa): ")) * 1e6
+                        if yield_strength > 0:
+                            break
+                        print("Yield strength must be positive!")
+                    except ValueError:
+                        print("Please enter a valid number!")
+                while True:
+                    try:
+                        youngs_modulus = float(input("Enter Young's modulus (GPa): ")) * 1e9
+                        if youngs_modulus > 0:
+                            break
+                        print("Young's modulus must be positive!")
+                    except ValueError:
+                        print("Please enter a valid number!")
+                break
+            else:
+                print("Invalid choice. Please select 1, 2, 3, or 4.")
+
     force = float(input("Enter the applied force (N): "))
     area = float(input("Enter the cross-sectional area (m^2): "))
     original_length = float(input("Enter the original length (m): "))
