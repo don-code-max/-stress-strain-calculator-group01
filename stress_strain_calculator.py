@@ -196,6 +196,48 @@ class TestAnalyzer:
             print(f"Test {i}: {test}")
             print(f"Status: {test.safety_status()}")
 
+def run_oop_demo():
+    steel_properties = MaterialProperties(
+        density=7850,
+        yield_strength=250e6,
+        youngs_modulus=200e9
+    )
+
+    aluminum_properties = MaterialProperties(
+        density=2700,
+        yield_strength=95e6,
+        youngs_modulus=69e9
+    )
+
+    titanium_properties = MaterialProperties(
+        density=4500,
+        yield_strength=880e6,
+        youngs_modulus=114e9
+    )
+
+    steel = Metal("Steel", steel_properties, is_ferrous=True)
+    aluminum = Metal("Aluminum", aluminum_properties, is_ferrous=False)
+    titanium = Metal("Titanium", titanium_properties, is_ferrous=False)
+
+    test1 = StressStrainTest(
+        steel, 5000, 0.001, 2, 0.001
+    )
+
+    test2 = StressStrainTest(
+        aluminum, 100000, 0.001, 1, 0.002
+    )
+
+    test3 = StressStrainTest(
+        titanium, 900000, 0.001, 2, 0.005
+    )
+
+    analyzer = TestAnalyzer()
+    analyzer.add_test(test1)
+    analyzer.add_test(test2)
+    analyzer.add_test(test3)
+
+    analyzer.display_summary()
+
 def calculate_stress(force, area):
     """Calculate stress from applied force and cross-sectional area."""
     return force / area
@@ -467,4 +509,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_oop_demo()
