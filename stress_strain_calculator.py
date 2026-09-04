@@ -4,7 +4,7 @@ def main():
     calculations_history = []
     unique_materials = set()
     UNITS = ("N", "m²", "m", "Pa")
-    
+
     while True:
         print("=== Stress and Strain Calculator ===")
         print()
@@ -123,6 +123,20 @@ def main():
         print()
         print("=== Analysis Complete ===")
         print()
+
+        calculation_record = {
+            "material": material_name,
+            "force": force,
+            "area": area,
+            "original_length": original_length,
+            "change_in_length": change_in_length,
+            "stress": stress,
+            "strain": strain,
+            "yield_strength": yield_strength,
+            "factor_of_safety": factor_of_safety
+        }
+        calculations_history.append(calculation_record)
+        unique_materials.add(material_name)
 
         repeat = input("Do you want to run another calculation? (y/n): ").strip().lower()
         if repeat != "y":
