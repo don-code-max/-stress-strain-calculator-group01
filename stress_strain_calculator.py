@@ -144,6 +144,24 @@ def main():
             break
         print()
     
+    print("\n=== SESSION SUMMARY ===")
+    total_calcs = len(calculations_history)
+    print(f"Total calculations performed: {total_calcs}")
+    
+    if total_calcs > 0:
+        print(f"Unique materials tested: {', '.join(unique_materials)} ({len(unique_materials)} materials)")
+        
+        highest_stress_record = max(calculations_history, key=lambda x: x['stress'])
+        avg_strain = sum(record['strain'] for record in calculations_history) / total_calcs
+        
+        print(f"Highest Stress Experienced: {highest_stress_record['stress'] / 1e6:.2f} MPa (Material: {highest_stress_record['material']})")
+        print(f"Average Strain Across All Tests: {avg_strain:.6f}")
+        
+        print("\n--- Detailed History ---")
+        for i, record in enumerate(calculations_history, 1):
+            print(f"Test {i}: {record['material']} | Force: {record['force']} {UNITS[0]} | "
+                  f"Stress: {record['stress'] / 1e6:.2f} MPa | FOS: {record['factor_of_safety']:.2f}")
+            
 if __name__ == "__main__":
     main()
 
