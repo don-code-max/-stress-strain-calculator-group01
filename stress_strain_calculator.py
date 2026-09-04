@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 UNITS = ("N", "m²", "m", "Pa")
 
 MATERIALS_DATABASE = {
@@ -6,6 +8,71 @@ MATERIALS_DATABASE = {
     "Titanium": {"yield_strength": 880e6, "youngs_modulus": 114e9},
 }
 
+#Material Class Hierchy
+
+@dataclass
+class MaterialProperties:
+    """Stores the properties of a material."""
+
+    density: float
+    yield_strength: float
+    youngs_modulus: float
+
+    def __post_init__(self):
+        if self.density <= 0:
+            raise ValueError("Density must be positive")
+        if self.yield_strength <= 0:
+            raise ValueError("Yield strength must be positive")
+        if self.youngs_modulus <= 0:
+            raise ValueError("Young's modulus must be positive")
+
+
+class Material:
+    """Base class for all materials."""
+
+    def __init__(self, name, properties):
+        self.name = name
+        self.properties = properties
+
+    def can_withstand_stress(self, stress):
+        return stress < self.properties.yield_strength
+
+    def __str__(self):
+        return f"{self.name} (Density: {self.properties.density} kg/m³)"
+
+
+class Metal(Material):
+    """Represents a metal material."""
+
+    def __init__(self, name, properties, is_ferrous=False):
+        super().__init__(name, properties)
+        self.is_ferrous = is_ferrous
+
+    def __str__(self):
+        metal_type = "Ferrous" if self.is_ferrous else "Non-ferrous"
+        return f"{self.name} ({metal_type} metal)"
+
+
+class Plastic(Material):
+    """Represents a plastic material."""
+
+    def __init__(self, name, properties, plastic_type="Thermoplastic"):
+        super().__init__(name, properties)
+        self.plastic_type = plastic_type
+
+    def __str__(self):
+        return f"{self.name} ({self.plastic_type} plastic)"
+
+
+class Composite(Material):
+    """Represents a composite material."""
+
+    def __init__(self, name, properties, reinforcement="Unknown"):
+        super().__init__(name, properties)
+        self.reinforcement = reinforcement
+
+    def __str__(self):
+        return f"{self.name} ({self.reinforcement} composite)"
 
 def calculate_stress(force, area):
     """Calculate stress from applied force and cross-sectional area."""
