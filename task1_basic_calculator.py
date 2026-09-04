@@ -50,6 +50,10 @@ def main():
             else:
                 print("Invalid choice. Please select 1, 2, 3, or 4.")
 
+        print(f"\nSelected Material: {material_name}")
+        print(f"Yield Strength    : {yield_strength / 1e6:.2f} MPa")
+        print(f"Young's Modulus   : {youngs_modulus / 1e9:.2f} GPa\n")
+
     force = float(input("Enter the applied force (N): "))
     area = float(input("Enter the cross-sectional area (m^2): "))
     original_length = float(input("Enter the original length (m): "))
