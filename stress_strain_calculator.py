@@ -108,25 +108,23 @@ def main():
         print(f"Factor of Safety    : {factor_of_safety:.2f}")
         print()
 
-    force = float(input("Enter the applied force (N): "))
-    area = float(input("Enter the cross-sectional area (m^2): "))
-    original_length = float(input("Enter the original length (m): "))
-    change_in_length = float(input("Enter the change in length (m): "))
+        if stress < yield_strength:
+            if factor_of_safety < 1.25:
+                print(f"STATUS: CAUTION - Factor of safety: {factor_of_safety:.2f}")
+            else:
+                print(f"STATUS: SAFE - Factor of safety: {factor_of_safety:.2f}")
+        else:
+            print(f"STATUS: WARNING - Material failure expected! Factor of safety: {factor_of_safety:.2f}")
 
-    stress = force / area
-    strain = change_in_length / original_length
+        print()
+        print("=== Analysis Complete ===")
+        print()
 
-    print()
-    print("=== RESULTS ===")
-    print(f"Applied Force        : {force:.2f} N")
-    print(f"Cross-Sectional Area : {area:.6f} m^2")
-    print(f"Original Length      : {original_length:.4f} m")
-    print(f"Change in Length     : {change_in_length:.4f} m")
-    print()
-    print(f"Stress : {stress:.2f} Pa")
-    print(f"Strain : {strain:.6f}")
-    print()
-    print("=== Analysis Complete ===")
+        repeat = input("Do you want to run another calculation? (y/n): ").strip().lower()
+        if repeat != "y":
+            print("Exiting calculator.")
+            break
+        print()
     
 if __name__ == "__main__":
     main()
