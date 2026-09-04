@@ -1,8 +1,9 @@
 def main():
     """Main function for the stress and strain calculator."""
 
-    print("=== Stress and Strain Calculator ===")
-    print()
+    while True:
+        print("=== Stress and Strain Calculator ===")
+        print()
 
     force = float(input("Enter the applied force (N): "))
     area = float(input("Enter the cross-sectional area (m^2): "))
