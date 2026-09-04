@@ -90,6 +90,24 @@ def main():
             except ValueError:
                 print("Please enter a valid number!")
 
+        stress = force / area
+        strain = change_in_length / original_length
+        factor_of_safety = yield_strength / stress
+
+        print()
+        print("=== RESULTS ===")
+        print(f"Material            : {material_name}")
+        print(f"Applied Force       : {force:.2f} N")
+        print(f"Cross-Sectional Area: {area:.6f} m^2")
+        print(f"Original Length     : {original_length:.4f} m")
+        print(f"Change in Length    : {change_in_length:.4f} m")
+        print()
+        print(f"Stress              : {stress:.2f} Pa ({stress / 1e6:.2f} MPa)")
+        print(f"Strain              : {strain:.6f}")
+        print(f"Yield Strength      : {yield_strength:.2f} Pa ({yield_strength / 1e6:.2f} MPa)")
+        print(f"Factor of Safety    : {factor_of_safety:.2f}")
+        print()
+
     force = float(input("Enter the applied force (N): "))
     area = float(input("Enter the cross-sectional area (m^2): "))
     original_length = float(input("Enter the original length (m): "))
