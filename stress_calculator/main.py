@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from .database import get_materials_database
 from .utils import add_to_history, run_calculation_round, display_session_summary
+from .tests import TestCollection
 
 from .database import get_materials_database, get_material_properties
 from .utils import (
@@ -44,6 +45,7 @@ def save_report(data, filepath):
 def main():
     """Main function for the stress and strain calculator."""
     database = get_materials_database()
+    suite = TestCollection()
     calculations_history = []
     unique_materials = set()
 
@@ -53,6 +55,7 @@ def main():
         add_to_history(calculations_history, record)
         unique_materials.add(record["material"])
 
+        suite.add_test(record)
         repeat = input("Do you want to run another calculation? (y/n): ").strip().lower()
         if repeat != "y":
             print("Exiting calculator.")
@@ -60,6 +63,19 @@ def main():
         print()
 
     display_session_summary(calculations_history, unique_materials)
+
+    output_dir = Path("test_reports")
+    output_dir.mkdir(exist_ok=True)
+
+    json_file = output_dir / "results.json"
+    csv_file = output_dir / "results.csv"
+
+    suite.export_to_json(json_file)
+    suite.export_to_csv(csv_file)
+
+    print(f"\n[✓] Results successfully exported:")
+    print(f"    - JSON: {json_file.resolve()}")
+    print(f"    - CSV:  {csv_file.resolve()}")
 
 
 if __name__ == "__main__":
