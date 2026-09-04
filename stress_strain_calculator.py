@@ -73,6 +73,71 @@ class Composite(Material):
 
     def __str__(self):
         return f"{self.name} ({self.reinforcement} composite)"
+    
+#commit 2: StressStrainTEST
+    
+class StressStrainTest:
+    """Represents a single stress-strain test."""
+
+    def __init__(
+        self,
+        material,
+        force,
+        area,
+        original_length,
+        change_in_length
+    ):
+        if force <= 0:
+            raise ValueError("Force must be positive")
+        if area <= 0:
+            raise ValueError("Area must be positive")
+        if original_length <= 0:
+            raise ValueError("Original length must be positive")
+        if change_in_length < 0:
+            raise ValueError("Change in length cannot be negative")
+
+        self.material = material
+        self._force = force
+        self._area = area
+        self._original_length = original_length
+        self._change_in_length = change_in_length
+
+    @property
+    def stress(self):
+        return self._force / self._area
+
+    @property
+    def strain(self):
+        return self._change_in_length / self._original_length
+
+    @property
+    def youngs_modulus(self):
+        if self.strain == 0:
+            return self.material.properties.youngs_modulus
+        return self.stress / self.strain
+
+    @property
+    def factor_of_safety(self):
+        return self.material.properties.yield_strength / self.stress
+
+    def will_fail(self):
+        return not self.material.can_withstand_stress(self.stress)
+
+    def safety_status(self):
+        if self.will_fail():
+            return "WARNING - Material failure expected!"
+        elif self.factor_of_safety < 1.25:
+            return "CAUTION"
+        else:
+            return "SAFE"
+
+    def __str__(self):
+        return (
+            f"Test on {self.material.name}: "
+            f"Stress={self.stress / 1e6:.2f} MPa, "
+            f"Strain={self.strain:.6f}, "
+            f"Factor of Safety={self.factor_of_safety:.2f}"
+        )
 
 def calculate_stress(force, area):
     """Calculate stress from applied force and cross-sectional area."""
