@@ -54,6 +54,42 @@ def main():
         print(f"Yield Strength    : {yield_strength / 1e6:.2f} MPa")
         print(f"Young's Modulus   : {youngs_modulus / 1e9:.2f} GPa\n")
 
+        while True:
+            try:
+                force = float(input("Enter the applied force (N): "))
+                if force > 0:
+                    break
+                print("Force must be positive!")
+            except ValueError:
+                print("Please enter a valid number!")
+
+        while True:
+            try:
+                area = float(input("Enter the cross-sectional area (m^2): "))
+                if area > 0:
+                    break
+                print("Area must be positive and non-zero!")
+            except ValueError:
+                print("Please enter a valid number!")
+
+        while True:
+            try:
+                original_length = float(input("Enter the original length (m): "))
+                if original_length > 0:
+                    break
+                print("Original length must be positive and non-zero!")
+            except ValueError:
+                print("Please enter a valid number!")
+
+        while True:
+            try:
+                change_in_length = float(input("Enter the change in length (m): "))
+                if change_in_length >= 0:
+                    break
+                print("Change in length cannot be negative!")
+            except ValueError:
+                print("Please enter a valid number!")
+
     force = float(input("Enter the applied force (N): "))
     area = float(input("Enter the cross-sectional area (m^2): "))
     original_length = float(input("Enter the original length (m): "))
