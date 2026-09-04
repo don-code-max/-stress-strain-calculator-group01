@@ -8,8 +8,6 @@ MATERIALS_DATABASE = {
     "Titanium": {"yield_strength": 880e6, "youngs_modulus": 114e9},
 }
 
-#Material Class Hierchy
-
 @dataclass
 class MaterialProperties:
     """Stores the properties of a material."""
@@ -73,9 +71,7 @@ class Composite(Material):
 
     def __str__(self):
         return f"{self.name} ({self.reinforcement} composite)"
-    
-#commit 2: StressStrainTEST
-    
+        
 class StressStrainTest:
     """Represents a single stress-strain test."""
 
@@ -138,6 +134,67 @@ class StressStrainTest:
             f"Strain={self.strain:.6f}, "
             f"Factor of Safety={self.factor_of_safety:.2f}"
         )
+    
+class TestAnalyzer:
+    """Stores and analyzes multiple stress-strain tests."""
+
+    def __init__(self):
+        self.tests = []
+
+    def add_test(self, test):
+        if not isinstance(test, StressStrainTest):
+            raise TypeError("Only StressStrainTest objects can be added")
+        self.tests.append(test)
+
+    def highest_stress_test(self):
+        if not self.tests:
+            return None
+        return max(self.tests, key=lambda test: test.stress)
+
+    def average_strain(self):
+        if not self.tests:
+            return 0
+        return sum(test.strain for test in self.tests) / len(self.tests)
+
+    def safest_test(self):
+        if not self.tests:
+            return None
+        return max(self.tests, key=lambda test: test.factor_of_safety)
+
+    def failed_tests(self):
+        return [test for test in self.tests if test.will_fail()]
+
+    def display_summary(self):
+        print("\n=== OOP TEST ANALYSIS ===")
+
+        if not self.tests:
+            print("No tests available.")
+            return
+
+        print(f"Total tests: {len(self.tests)}")
+
+        highest = self.highest_stress_test()
+        safest = self.safest_test()
+
+        print(
+            f"Highest Stress: {highest.stress / 1e6:.2f} MPa "
+            f"({highest.material.name})"
+        )
+
+        print(f"Average Strain: {self.average_strain():.6f}")
+
+        print(
+            f"Safest Material: {safest.material.name} "
+            f"(FOS: {safest.factor_of_safety:.2f})"
+        )
+
+        print(f"Failed Tests: {len(self.failed_tests())}")
+
+        print("\n--- Test Details ---")
+
+        for i, test in enumerate(self.tests, 1):
+            print(f"Test {i}: {test}")
+            print(f"Status: {test.safety_status()}")
 
 def calculate_stress(force, area):
     """Calculate stress from applied force and cross-sectional area."""
