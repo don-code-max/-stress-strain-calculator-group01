@@ -1,3 +1,6 @@
+# database.py
+from typing import Dict
+
 MATERIALS_DATABASE = {
     "Steel": {"yield_strength": 250e6, "youngs_modulus": 200e9},
     "Aluminum": {"yield_strength": 95e6, "youngs_modulus": 69e9},
